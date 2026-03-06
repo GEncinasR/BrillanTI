@@ -7,7 +7,9 @@
 *.iml
 *.ipr
 
-
+### Persistance ###
+entidad/src/main/resources/META-INF/persistence.xml
+persistencia/src/main/resources/META-INF/persistence.xml
 
 
 ### Java ###
