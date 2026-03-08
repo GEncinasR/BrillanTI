@@ -5,27 +5,22 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "usuario", schema = "desarrollo")
+@Table(name = "usuario", schema = "sauap")
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idusuario", nullable = false)
+    @Column(name = "Id", nullable = false)
     private Integer id;
 
-    @Size(max = 45)
+    @Size(max = 50)
     @NotNull
-    @Column(name = "correo", nullable = false, length = 45)
-    private String correo;
+    @Column(name = "NombreUsuario", nullable = false, length = 50)
+    private String nombreUsuario;
 
-    @Size(max = 45)
+    @Size(max = 50)
     @NotNull
-    @Column(name = "contrasena", nullable = false, length = 45)
-    private String contrasena;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "idAlumno", nullable = false)
-    private Alumno idAlumno;
+    @Column(name = "ContrasenaUsuario", nullable = false, length = 50)
+    private String contrasenaUsuario;
 
     public Integer getId() {
         return id;
@@ -35,28 +30,20 @@ public class Usuario {
         this.id = id;
     }
 
-    public String getCorreo() {
-        return correo;
+    public String getNombreUsuario() {
+        return nombreUsuario;
     }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
     }
 
-    public String getContrasena() {
-        return contrasena;
+    public String getContrasenaUsuario() {
+        return contrasenaUsuario;
     }
 
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
-    }
-
-    public Alumno getIdAlumno() {
-        return idAlumno;
-    }
-
-    public void setIdAlumno(Alumno idAlumno) {
-        this.idAlumno = idAlumno;
+    public void setContrasenaUsuario(String contrasenaUsuario) {
+        this.contrasenaUsuario = contrasenaUsuario;
     }
 
 }
