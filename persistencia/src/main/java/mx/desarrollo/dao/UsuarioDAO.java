@@ -14,10 +14,12 @@ public class UsuarioDAO extends AbstractDAO<Usuario> {
         this.entityManager = em;
     }
 
+    /**
+     * Metodo para obtener todos los usuarios utilizando el criterio de la entidad base
+     * @return lista de usuarios
+     */
     public List<Usuario> obtenerTodos(){
-        return entityManager
-                .createQuery("SELECT u FROM Usuario u", Usuario.class)
-                .getResultList();
+        return super.findAll();
     }
 
     @Override
