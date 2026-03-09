@@ -16,17 +16,8 @@ public class ServiceLocator {
     return HibernateUtil.getEntityManager();
   }
 
-
-  /**
-   * se crea una nueva instancia para unidadAprendizaje DAO con un EntityManager fresco
-   */
   public static UnidadAprendizajeDAO getInstanceUnidadAprendizajeDAO() {
     return new UnidadAprendizajeDAO(getEntityManager());
   }
-
-  /**
-   * se crea una nueva instancia de usuarioDAO con un EntityManager fresco
-
-
 
 }
