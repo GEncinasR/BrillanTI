@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "asignado", schema = "sauap")
+@Table(name = "asignado")
 public class Asignado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,14 +14,14 @@ public class Asignado {
     private Integer id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "IdProfesor", nullable = false)
     private Profesor idProfesor;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "IdUA", nullable = false)
-    private Unidadaprendizaje idUA;
+    private UnidadAprendizaje idUA;
 
     @Lob
     @Column(name = "Dia")
@@ -49,11 +49,11 @@ public class Asignado {
         this.idProfesor = idProfesor;
     }
 
-    public Unidadaprendizaje getIdUA() {
+    public UnidadAprendizaje getIdUA() {
         return idUA;
     }
 
-    public void setIdUA(Unidadaprendizaje idUA) {
+    public void setIdUA(UnidadAprendizaje idUA) {
         this.idUA = idUA;
     }
 

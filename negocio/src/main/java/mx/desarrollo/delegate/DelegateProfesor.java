@@ -14,4 +14,8 @@ public class DelegateProfesor {
     public Profesor buscarPorRFC(String rfc){
         return ServiceLocator.getInstanceProfesorDAO().buscarPorRFC(rfc);
     }
+
+    public java.util.List<Profesor> findAll() {
+        return ServiceLocator.getInstanceProfesorDAO().findAll();
+    }
 }

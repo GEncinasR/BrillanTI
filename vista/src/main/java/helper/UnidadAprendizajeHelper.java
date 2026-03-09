@@ -34,7 +34,7 @@ public class UnidadAprendizajeHelper {
         return true;
     }
 
-    private boolean rangoValido(Integer valor) {
+    private boolean rangoValido(Byte valor) {
         return valor != null && valor >= 0 && valor <= 4;
     }
 

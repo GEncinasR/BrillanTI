@@ -5,6 +5,7 @@ import mx.desarrollo.entity.Asignado;
 
 import java.util.List;
 
+
 public class FacadeAsignado {
     private final DelegateAsignado delegateAsignado;
 
@@ -21,7 +22,7 @@ public class FacadeAsignado {
     }
 
     public List<Asignado> obtenerPorProfesor(Integer idProfesor){
-        return asignadoDAO.obtenerPorProfesor(idProfesor);
+        return delegateAsignado.obtenerPorProfesor(idProfesor);
     }
 
 }

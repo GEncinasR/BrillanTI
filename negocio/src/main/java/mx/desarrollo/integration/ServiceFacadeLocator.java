@@ -1,14 +1,12 @@
 package mx.desarrollo.integration;
 
 import mx.desarrollo.facade.FacadeUnidadAprendizaje;
-import mx.desarrollo.facade.FacadeAlumno;
 import mx.desarrollo.facade.FacadeProfesor;
 import mx.desarrollo.facade.FacadeUsuario;
 import mx.desarrollo.facade.FacadeAsignado;
 
 public class ServiceFacadeLocator {
 
-    private static FacadeAlumno facadeAlumno;
     private static FacadeUsuario facadeUsuario;
     private static FacadeAsignado facadeAsignado;
     private static FacadeProfesor facadeProfesor;

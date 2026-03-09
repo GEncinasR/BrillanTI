@@ -8,7 +8,7 @@ import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import mx.desarrollo.entity.Asignado;
 import mx.desarrollo.entity.Profesor;
-import mx.desarrollo.entity.Unidadaprendizaje;
+import mx.desarrollo.entity.UnidadAprendizaje;
 
 import java.io.Serializable;
 import java.time.LocalTime;
@@ -34,7 +34,7 @@ public class AsignadoBeanUI implements Serializable {
     private Date maxTime;
 
     private List<Profesor> listaProfesores;
-    private List<Unidadaprendizaje> listaUA;
+    private List<UnidadAprendizaje> listaUA;
     private List<String> listaDias;
     private List<Asignado> horarioProfesor;
     private String horarioTexto;
@@ -46,24 +46,35 @@ public class AsignadoBeanUI implements Serializable {
     @PostConstruct
     public void init() {
         asignado = new Asignado();
-        listaDias = Arrays.asList("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
+        listaDias = Arrays.asList("Lunes", "Martes", "Miércoles", "Jueves", "Viernes");
         
-        //límites de tiempo
-        // (7:00 AM a 9:00 PM)
         java.util.Calendar cal = java.util.Calendar.getInstance();
-        cal.set(java.util.Calendar.HOUR_OF_DAY, 7);
-        cal.set(java.util.Calendar.MINUTE, 0);
+        cal.set(java.util.Calendar.HOUR_OF_DAY, 6);
+        cal.set(java.util.Calendar.MINUTE, 59);
         minTime = cal.getTime();
         
         cal.set(java.util.Calendar.HOUR_OF_DAY, 21);
         cal.set(java.util.Calendar.MINUTE, 0);
         maxTime = cal.getTime();
 
-        //  listas vacías por mientras,
-        // TODO: Integrar con otras entidades
-        listaProfesores = new ArrayList<>();
-        listaUA = new ArrayList<>();
+        cal.set(java.util.Calendar.HOUR_OF_DAY, 12);
+        cal.set(java.util.Calendar.MINUTE, 0);
+        hrInicio = cal.getTime();
+        hrFin = cal.getTime();
 
+        refreshData();
+    }
+
+    public void refreshData() {
+        listaProfesores = asignadoHelper.obtenerProfesores();
+        if (listaProfesores != null) {
+            listaProfesores.sort((p1, p2) -> p1.getNombreProfesor().compareToIgnoreCase(p2.getNombreProfesor()));
+        }
+        
+        listaUA = asignadoHelper.obtenerUAs();
+        if (listaUA != null) {
+            listaUA.sort((u1, u2) -> u1.getNombre().compareToIgnoreCase(u2.getNombre()));
+        }
     }
 
     public void asignar() {
@@ -79,7 +90,7 @@ public class AsignadoBeanUI implements Serializable {
             p.setId(idProfesor);
             asignado.setIdProfesor(p);
 
-            Unidadaprendizaje ua = new Unidadaprendizaje();
+            UnidadAprendizaje ua = new UnidadAprendizaje();
             ua.setId(idUA);
             asignado.setIdUA(ua);
 
@@ -95,7 +106,7 @@ public class AsignadoBeanUI implements Serializable {
                 limpiarFormulario();
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, 
-                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia:", "Esta asignación ya existe para los mismos horarios y día."));
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia:", "Ya existe una asignación en horario y dia indicado."));
             }
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, 
@@ -168,8 +179,8 @@ public class AsignadoBeanUI implements Serializable {
     public List<Profesor> getListaProfesores() { return listaProfesores; }
     public void setListaProfesores(List<Profesor> listaProfesores) { this.listaProfesores = listaProfesores; }
 
-    public List<Unidadaprendizaje> getListaUA() { return listaUA; }
-    public void setListaUA(List<Unidadaprendizaje> listaUA) { this.listaUA = listaUA; }
+    public List<UnidadAprendizaje> getListaUA() { return listaUA; }
+    public void setListaUA(List<UnidadAprendizaje> listaUA) { this.listaUA = listaUA; }
 
     public List<String> getListaDias() { return listaDias; }
     public void setListaDias(List<String> listaDias) { this.listaDias = listaDias; }

@@ -6,209 +6,112 @@
       xmlns:p="http://primefaces.org/ui">
 
     <h:head>
-        <title>Asignación de UAs</title>
+        <title>Asignación - SAUAP</title>
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/style.css" />
         <style>
-            body {
-                background-color: #f8f9fa;
-            }
-            .header-container {
-                padding: 20px;
-                border-bottom: 2px solid #002677;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                background: white;
-            }
-            .header-title {
-                color: #002677;
-                font-weight: bold;
-                font-size: 24px;
-            }
-            .back-arrow {
-                font-size: 30px;
-                color: #002677;
-                text-decoration: none;
-                cursor: pointer;
-            }
-            .main-card {
-                width: 50%;
-                margin: 50px auto;
-                padding: 40px;
-                background: white;
-                border: 1px solid #ddd;
-                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            }
-            .form-group {
-                margin-bottom: 20px;
-            }
-            .form-group label {
-                display: block;
-                margin-bottom: 8px;
-                font-weight: 500;
-                color: #333;
-                font-size: 1.2em;
-            }
-            .ui-selectonemenu, .ui-inputfield, .ui-datepicker-input {
-                width: 100% !important;
-                font-size: 1.1em !important;
-                padding: 10px !important;
-            }
+        .time-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+        }
+        .time-box {
+            text-align: center;
+        }
+        .time-box label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            font-size: 1.5em;
+        }
+        
+        /* Restoring original dropdown and search bar styles */
+        .ui-selectonemenu .ui-selectonemenu-label {
+            font-size: 1.2em !important;
+            padding: 10px !important;
+        }
+        .ui-selectonemenu-panel .ui-selectonemenu-items .ui-selectonemenu-item {
+            font-size: 1.6em !important;
+            padding: 10px !important;
+        }
+        .ui-selectonemenu-filter-container .ui-selectonemenu-filter {
+            font-size: 1.3em !important;
+            padding: 10px 10px 10px 35px !important;
+        }
+        .ui-selectonemenu-filter-container .ui-icon-search {
+            top: 50% !important;
+            margin-top: -8px !important;
+            left: 10px !important;
+        }
+        .ui-datepicker, .ui-datepicker-calendar, .ui-timepicker-div {
+            font-size: 1.2em !important;
+        }
+    </style>
+</h:head>
 
-            .ui-selectonemenu .ui-selectonemenu-label {
-                font-size: 1.2em !important;
-                padding: 10px !important;
-            }
-            .ui-selectonemenu-panel .ui-selectonemenu-items .ui-selectonemenu-item {
-                font-size: 1.6em !important;
-                padding: 10px !important;
-            }
+<h:body>
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{asignadoUI.refreshData()}" />
+    </f:metadata>
+    <div class="header-container">        <h:form>
+            <h:commandLink action="#{asignadoUI.regresar()}" styleClass="back-arrow">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+            </h:commandLink>
+        </h:form>
+        <div class="header-title">Asignación de Unidades de Aprendizaje</div>
+        <div style="width: 40px;"></div>
+    </div>
 
-            .ui-selectonemenu-filter-container .ui-selectonemenu-filter {
-                font-size: 1.3em !important;
-                padding: 10px 10px 10px 35px !important; /* padding para la lupa */
-            }
-            .ui-selectonemenu-filter-container .ui-icon-search {
-                top: 50% !important;
-                margin-top: -8px !important;
-                left: 10px !important;
-            }
-            .ui-datepicker, .ui-datepicker-calendar, .ui-timepicker-div {
-                font-size: 1.2em !important;
-            }
+    <div class="main-card">
+        <h:form id="formAsignacion">
+            <p:growl id="growl" showDetail="true" life="3000" />
 
-            .ui-growl {
-                font-size: 1.5rem !important;
-                width: 400px !important;
-            }
-            .ui-growl-item-container {
-                width: 100% !important;
-            }
-            .ui-growl-image {
-                margin-top: 15px !important;
-            }
-            .ui-growl-message {
-                width: 320px !important;
-                padding: 0 0 5px 10px !important;
-            }
-            .ui-growl-title {
-                font-weight: bold;
-            }
-            .time-container {
-                display: flex;
-                justify-content: center;
-                gap: 40px;
-                margin-top: 20px;
-            }
-            .time-box {
-                text-align: center;
-            }
-            .time-box label {
-                display: block;
-                margin-bottom: 10px;
-                font-weight: 500;
-                font-size: 1.5em;
-            }
-            .btn-asignar {
-                background-color: #4A90E2 !important;
-                color: white !important;
-                padding: 15px 60px !important;
-                font-size: 22px !important;
-                font-weight: bold !important;
-                border: none !important;
-                border-radius: 6px !important;
-                margin: 30px auto !important;
-                display: block !important;
-                text-shadow: none !important;
-                cursor: pointer;
-            }
-            .btn-asignar:hover {
-                background-color: #357ABD !important;
-                color: white !important;
-            }
+            <!-- UA -->
+            <div class="form-group">
+                <label>Seleccione una Unidad de Aprendizaje</label>
+                <p:selectOneMenu id="ua" value="#{asignadoUI.idUA}" filter="true" filterMatchMode="contains">
+                    <f:selectItem itemLabel="Seleccione..." itemValue="" noSelectionOption="true" />
+                    <f:selectItems value="#{asignadoUI.listaUA}" var="ua" 
+                                   itemLabel="#{ua.nombre}" itemValue="#{ua.id}" />
+                </p:selectOneMenu>
+            </div>
 
-            .ui-icon-carat-1-s, .ui-icon-carat-1-n {
-                background-image: none !important;
-                display: inline-block;
-                font: normal normal normal 14px/1 FontAwesome;
-                font-size: inherit;
-                text-rendering: auto;
-                -webkit-font-smoothing: antialiased;
-            }
-            .ui-icon-carat-1-s:before {
-                content: \"\f078\";
-                color: #002677;
-            }
-            .ui-icon-carat-1-n:before {
-                content: \"\f077\";
-                color: #002677;
-            }
-            .ui-datepicker .ui-datepicker-header .ui-datepicker-prev, 
-            .ui-datepicker .ui-datepicker-header .ui-datepicker-next {
-                cursor: pointer;
-            }
-        </style>
-    </h:head>
+            <!-- Profesor -->
+            <div class="form-group">
+                <label>Seleccione un Profesor</label>
+                <p:selectOneMenu id="profesor" value="#{asignadoUI.idProfesor}" filter="true" filterMatchMode="contains">
+                    <f:selectItem itemLabel="Seleccione..." itemValue="" noSelectionOption="true" />
+                    <f:selectItems value="#{asignadoUI.listaProfesores}" var="prof" 
+                                   itemLabel="#{prof.nombreProfesor} #{prof.apellidoP}" itemValue="#{prof.id}" />
+                </p:selectOneMenu>
+            </div>
 
-    <h:body>
-        <div class="header-container">
-            <h:form>
-                <h:commandLink action="#{asignadoUI.regresar()}" styleClass="back-arrow">
-                    <span class="glyphicon glyphicon-arrow-left"></span>
-                </h:commandLink>
-            </h:form>
-            <div class="header-title">Asignación de Unidades de Aprendizaje</div>
-        </div>
+            <!-- dia -->
+            <div class="form-group">
+                <label>Día de la asignatura</label>
+                <p:selectOneMenu id="dia" value="#{asignadoUI.asignado.dia}">
+                    <f:selectItem itemLabel="Seleccione..." itemValue="" noSelectionOption="true" />
+                    <f:selectItems value="#{asignadoUI.listaDias}" />
+                </p:selectOneMenu>
+            </div>
 
-        <div class="main-card">
-            <h:form id="formAsignacion">
-                <p:growl id="growl" showDetail="true" life="3000" />
-
-                <!-- UA -->
-                <div class="form-group">
-                    <label>Seleccione una UA</label>
-                    <p:selectOneMenu id="ua" value="#{asignadoUI.idUA}" filter="true" filterMatchMode="contains">
-                        <f:selectItem itemLabel="Seleccione..." itemValue="" noSelectionOption="true" />
-                        <f:selectItems value="#{asignadoUI.listaUA}" var="ua" 
-                                       itemLabel="#{ua.nombre}" itemValue="#{ua.id}" />
-                    </p:selectOneMenu>
+            <!-- Hora Inicio y Hora Fin (le puse min 7am y maximo 9pm, basandome en mi experiencia con la subasta -->
+            <div class="time-container">
+                <div class="time-box">
+                    <label>Hora Inicio</label>
+                    <p:datePicker id="hrInicio" value="#{asignadoUI.hrInicio}" timeOnly="true" pattern="HH:mm" 
+                                  mindate="#{asignadoUI.minTime}" maxdate="#{asignadoUI.maxTime}" inline="true" />
                 </div>
-
-                <!-- Profesor -->
-                <div class="form-group">
-                    <label>Seleccione un Profesor</label>
-                    <p:selectOneMenu id="profesor" value="#{asignadoUI.idProfesor}" filter="true" filterMatchMode="contains">
-                        <f:selectItem itemLabel="Seleccione..." itemValue="" noSelectionOption="true" />
-                        <f:selectItems value="#{asignadoUI.listaProfesores}" var="prof" 
-                                       itemLabel="#{prof.nombre}" itemValue="#{prof.id}" />
-                    </p:selectOneMenu>
+                <div class="time-box">
+                    <label>Hora Fin</label>
+                    <p:datePicker id="hrFin" value="#{asignadoUI.hrFin}" timeOnly="true" pattern="HH:mm" 
+                                  mindate="#{asignadoUI.minTime}" maxdate="#{asignadoUI.maxTime}" inline="true" />
                 </div>
-
-                <!-- dia -->
-                <div class="form-group">
-                    <label>Ingrese el día de la asignatura</label>
-                    <p:selectOneMenu id="dia" value="#{asignadoUI.asignado.dia}">
-                        <f:selectItem itemLabel="Seleccione..." itemValue="" noSelectionOption="true" />
-                        <f:selectItems value="#{asignadoUI.listaDias}" />
-                    </p:selectOneMenu>
-                </div>
-
-                <!-- Hora Inicio y Hora Fin (le puse min 7am y maximo 9pm, basandome en mi experiencia con la subasta -->
-                <div class="time-container">
-                    <div class="time-box">
-                        <label>Hora Inicio</label><br/>
-                        <p:datePicker id="hrInicio" value="#{asignadoUI.hrInicio}" timeOnly="true" pattern="HH:mm" 
-                                      mindate="#{asignadoUI.minTime}" maxdate="#{asignadoUI.maxTime}" inline="true" />
-                    </div>
-                    <div class="time-box">
-                        <label>Hora Fin</label><br/>
-                        <p:datePicker id="hrFin" value="#{asignadoUI.hrFin}" timeOnly="true" pattern="HH:mm" 
-                                      mindate="#{asignadoUI.minTime}" maxdate="#{asignadoUI.maxTime}" inline="true" />
-                    </div>
-                </div>
+            </div>
 
                 <p:commandButton value="ASIGNAR" actionListener="#{asignadoUI.asignar()}" 
-                                 update="formAsignacion" styleClass="btn-asignar" />
+                                 update="formAsignacion" styleClass="btn-primary-custom" style="margin-top: 30px;" />
             </h:form>
         </div>
     </h:body>

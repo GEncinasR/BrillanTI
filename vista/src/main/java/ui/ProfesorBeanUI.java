@@ -4,6 +4,7 @@ import helper.ProfesorHelper;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import mx.desarrollo.entity.Profesor;
 
@@ -16,6 +17,9 @@ import java.time.format.DateTimeFormatter;
 @SessionScoped
 public class ProfesorBeanUI implements Serializable {
     private ProfesorHelper profesorHelper;
+
+    @Inject
+    private AsignadoBeanUI asignadoUI;
 
     // datos de los campos
     private String nombre;
@@ -59,6 +63,10 @@ public class ProfesorBeanUI implements Serializable {
 
             System.out.println("guardar desde el bean");
             profesorHelper.altaProfesor(nuevoProfesor);
+
+            if (asignadoUI != null) {
+                asignadoUI.refreshData();
+            }
 
             // Mensaje de exito
             FacesContext.getCurrentInstance().addMessage(null,
@@ -153,7 +161,7 @@ public class ProfesorBeanUI implements Serializable {
 
         //  Validar formato general
         if (!rfcUp.matches("^[A-ZÑ&]{4}\\d{6}[A-Z0-9]{3}$")) {
-            mostrarError("RFC Inválido", "El formato debe ser ABCD123456XYZ.");
+            mostrarError("RFC no válido", "El formato debe ser ABCD123456XYZ.");
             return false;
         }
 

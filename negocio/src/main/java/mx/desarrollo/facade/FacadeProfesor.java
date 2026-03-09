@@ -18,4 +18,8 @@ public class FacadeProfesor {
     public Profesor buscarPorRFC(String rfc){
         return delegateProfesor.buscarPorRFC(rfc);
     }
+
+    public java.util.List<Profesor> findAll() {
+        return delegateProfesor.findAll();
+    }
 }

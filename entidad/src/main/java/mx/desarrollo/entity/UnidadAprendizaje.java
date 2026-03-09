@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 
 @Entity
-@Table(name = "unidadaprendizaje", schema = "sauap")
+@Table(name = "unidadaprendizaje")
 public class UnidadAprendizaje {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,17 +22,17 @@ public class UnidadAprendizaje {
     @Min(0)
     @Max(4)
     @Column(name = "HrsClase")
-    private Integer hrsClase;
+    private Byte hrsClase;
 
     @Min(0)
     @Max(4)
     @Column(name = "HrsTaller")
-    private Integer hrsTaller;
+    private Byte hrsTaller;
 
     @Min(0)
     @Max(4)
     @Column(name = "HrsLab")
-    private Integer hrsLab;
+    private Byte hrsLab;
 
     public Integer getId() {
         return id;
@@ -50,27 +50,27 @@ public class UnidadAprendizaje {
         this.nombre = nombre;
     }
 
-    public Integer getHrsClase() {
+    public Byte getHrsClase() {
         return hrsClase;
     }
 
-    public void setHrsClase(Integer hrsClase) {
+    public void setHrsClase(Byte hrsClase) {
         this.hrsClase = hrsClase;
     }
 
-    public Integer getHrsTaller() {
+    public Byte getHrsTaller() {
         return hrsTaller;
     }
 
-    public void setHrsTaller(Integer hrsTaller) {
+    public void setHrsTaller(Byte hrsTaller) {
         this.hrsTaller = hrsTaller;
     }
 
-    public Integer getHrsLab() {
+    public Byte getHrsLab() {
         return hrsLab;
     }
 
-    public void setHrsLab(Integer hrsLab) {
+    public void setHrsLab(Byte hrsLab) {
         this.hrsLab = hrsLab;
     }
 

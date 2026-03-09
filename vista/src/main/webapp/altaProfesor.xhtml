@@ -6,115 +6,50 @@
       xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-    <title>Alta de Profesores</title>
-    <style>
-        /* Fondo general */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f5f7;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Encabezado */
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #112D4E;
-            padding: 15px 40px;
-            margin-bottom: 50px;
-            background-color: #ffffff;
-        }
-        .header-title {
-            color: #112D4E;
-            font-weight: bold;
-            font-size: 22px;
-        }
-        .back-arrow {
-            font-size: 24px;
-            color: #112D4E;
-            text-decoration: none;
-        }
-
-        /* Caja del formulario */
-        .form-box {
-            background: #ffffff;
-            border: 1px solid #000000;
-            max-width: 450px;
-            margin: 0 auto;
-            padding: 40px 50px;
-        }
-
-        /* Campos */
-        .field-container {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-        .field-container label {
-            display: block;
-            margin-bottom: 5px;
-            color: #000000;
-            font-size: 14px;
-        }
-
-        .ui-inputtext, .ui-calendar, body .ui-inputfield {
-            width: 100% !important;
-            box-sizing: border-box;
-            padding: 6px;
-        }
-
-        /* Botón */
-        .btn-agregar {
-            background-color: #3F72AF !important;
-            border-color: #3F72AF !important;
-            color: white !important;
-            width: 150px;
-            display: block;
-            margin: 35px auto 0 auto !important;
-            font-weight: bold !important;
-            padding: 5px !important;
-            text-shadow: none !important;
-        }
-
-        .btn-agregar:hover {
-            background-color: #112D4E !important;
-            border-color: #112D4E !important;
-        }
-    </style>
+    <title>Alta de Profesor - SAUAP</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/style.css" />
 </h:head>
 
 <h:body>
     <div class="header-container">
-        <h:outputLink value="menu.xhtml" class="back-arrow">
-            <i class="pi pi-arrow-left"></i>
-        </h:outputLink>
+        <h:form>
+            <h:commandLink action="index.xhtml?faces-redirect=true" styleClass="back-arrow">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+            </h:commandLink>
+        </h:form>
         <div class="header-title">Alta de Profesores</div>
+        <div style="width: 40px;"></div>
     </div>
 
-    <h:form id="formAlta">
-        <p:messages id="messages" showDetail="true" closable="true">
-            <p:autoUpdate />
-        </p:messages>
+    <div class="main-card" style="max-width: 600px;">
+        <h:form id="formAltaProfesor">
+            <p:growl id="growl" showDetail="true" life="3000" />
 
-        <div class="form-box">
-            <div class="field-container">
-                <p:outputLabel for="nombre" value="Nombre" />
-                <p:inputText id="nombre" value="#{profesorBeanUI.nombre}" />
+            <div class="form-group">
+                <label>Nombre(s)</label>
+                <p:inputText id="nombre" value="#{profesorBeanUI.nombre}" required="true" requiredMessage="El nombre es obligatorio" placeholder="Ingrese nombre completo"/>
             </div>
 
-            <div class="field-container">
-                <p:outputLabel for="apPaterno" value="Apellido Paterno" />
-                <p:inputText id="apPaterno" value="#{profesorBeanUI.apellidoPaterno}" />
+            <div style="display: flex; gap: 20px;">
+                <div class="form-group" style="flex: 1;">
+                    <label>Apellido Paterno</label>
+                    <p:inputText id="apPaterno" value="#{profesorBeanUI.apellidoPaterno}" required="true" requiredMessage="El apellido paterno es obligatorio"/>
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label>Apellido Materno</label>
+                    <p:inputText id="apMaterno" value="#{profesorBeanUI.apellidoMaterno}" required="true" requiredMessage="El apellido materno es obligatorio"/>
+                </div>
             </div>
 
-            <div class="field-container">
-                <p:outputLabel for="apMaterno" value="Apellido Materno" />
-                <p:inputText id="apMaterno" value="#{profesorBeanUI.apellidoMaterno}" />
+            <div class="form-group">
+                <label>RFC</label>
+                <p:inputText id="rfc" value="#{profesorBeanUI.rfc}" required="true" requiredMessage="El RFC es obligatorio" 
+                             style="text-transform: uppercase;" maxlength="13" placeholder="XXXX000000XXX"/>
             </div>
 
-            <div class="field-container">
-                <p:outputLabel value="Fecha de Nacimiento" />
+            <div class="form-group">
+                <label>Fecha de Nacimiento</label>
                 <div style="display: flex; gap: 15px;">
                     <p:inputText id="dia" value="#{profesorBeanUI.dia}"
                                  placeholder="DD" maxlength="2"
@@ -133,18 +68,9 @@
                 </div>
             </div>
 
-            <div class="field-container">
-                <p:outputLabel for="rfc" value="RFC" />
-                <p:inputText id="rfc" value="#{profesorBeanUI.rfc}"
-                             style="text-transform: uppercase;" maxlength="13"/>
-            </div>
-
-            <p:commandButton value="AGREGAR"
-                             action="#{profesorBeanUI.altaProfesor()}"
-                             process="@form"
-                             update="@form"
-                             styleClass="btn-agregar" />
-        </div>
-    </h:form>
+            <p:commandButton value="REGISTRAR PROFESOR" actionListener="#{profesorBeanUI.altaProfesor()}" 
+                             update="formAltaProfesor" styleClass="btn-primary-custom" style="margin-top: 30px;" />
+        </h:form>
+    </div>
 </h:body>
 </html>

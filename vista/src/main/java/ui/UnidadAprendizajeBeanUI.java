@@ -7,6 +7,7 @@ import jakarta.faces.view.ViewScoped;
 import mx.desarrollo.delegate.DelegateUnidadAprendizaje;
 import mx.desarrollo.entity.UnidadAprendizaje;
 import helper.UnidadAprendizajeHelper;
+import jakarta.inject.Inject;
 
 import java.io.Serializable;
 import java.util.List;
@@ -18,6 +19,9 @@ import jakarta.annotation.PostConstruct;
 public class UnidadAprendizajeBeanUI implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @Inject
+    private AsignadoBeanUI asignadoUI;
 
     private List<UnidadAprendizaje> listaUnidades;
     private DelegateUnidadAprendizaje delegate;
@@ -72,6 +76,11 @@ public class UnidadAprendizajeBeanUI implements Serializable {
                 delegate.saveUnidadAprendizaje(unidad);
                 // refrescar la lista después del alta
                 listaUnidades = delegate.getUA();
+                
+                if (asignadoUI != null) {
+                    asignadoUI.refreshData();
+                }
+
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Unidad guardada correctamente");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 // limpiar el objeto para un posible nuevo registro
@@ -79,7 +88,7 @@ public class UnidadAprendizajeBeanUI implements Serializable {
             }
         } else {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Datos inválidos",
+                    "Datos no válidos",
                     "Asegúrese de que el nombre no esté vacío, las horas estén entre 0 y 4, y al menos una hora sea mayor que 0.");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }

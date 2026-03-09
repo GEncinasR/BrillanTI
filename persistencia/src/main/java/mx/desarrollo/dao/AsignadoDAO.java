@@ -25,21 +25,19 @@ public class AsignadoDAO extends AbstractDAO<Asignado> {
                 .getResultList();
     }
 
-    /**
-     * Verifica si ya existe una asignación con los mismos datos
-     * para evitar duplicados exactos.
-     */
     public boolean existe(Asignado a) {
+        // Un profesor no puede tener dos clases al mismo tiempo el mismo día.
+        // Verificamos si existe alguna asignación para este profesor y día
+        // donde el rango de horas se cruce.
         String jpql = "SELECT COUNT(asig) FROM Asignado asig " +
                       "WHERE asig.idProfesor = :prof " +
-                      "AND asig.idUA = :ua " +
                       "AND asig.dia = :dia " +
-                      "AND asig.hrInicio = :inicio " +
-                      "AND asig.hrFin = :fin";
+                      "AND ((asig.hrInicio <= :inicio AND asig.hrFin > :inicio) " +
+                      "OR (asig.hrInicio < :fin AND asig.hrFin >= :fin) " +
+                      "OR (:inicio <= asig.hrInicio AND :fin >= asig.hrFin))";
         
         Long count = entityManager.createQuery(jpql, Long.class)
                 .setParameter("prof", a.getIdProfesor())
-                .setParameter("ua", a.getIdUA())
                 .setParameter("dia", a.getDia())
                 .setParameter("inicio", a.getHrInicio())
                 .setParameter("fin", a.getHrFin())

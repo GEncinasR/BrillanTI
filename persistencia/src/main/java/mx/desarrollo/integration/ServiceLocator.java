@@ -1,13 +1,10 @@
 package mx.desarrollo.integration;
 
 import jakarta.persistence.EntityManager;
-import mx.desarrollo.dao.AlumnoDAO;
 import mx.desarrollo.dao.ProfesorDAO;
 import mx.desarrollo.dao.UsuarioDAO;
 import mx.desarrollo.dao.AsignadoDAO;
-//import mx.desarrollo.dao.AlumnoDAO;
 import mx.desarrollo.dao.UnidadAprendizajeDAO;
-//import mx.desarrollo.dao.UsuarioDAO;
 import mx.desarrollo.persistence.HibernateUtil;
 
 /**
@@ -16,7 +13,6 @@ import mx.desarrollo.persistence.HibernateUtil;
  */
 public class ServiceLocator {
 
-  private static AlumnoDAO alumnoDAO;
   private static UsuarioDAO usuarioDAO;
   private static AsignadoDAO asignadoDAO;
   private static ProfesorDAO profesorDAO;
@@ -36,20 +32,6 @@ public class ServiceLocator {
             return profesorDAO;
         }
     }
-
-
-
-  /**
-   * se crea la instancia para alumno DAO si esta no existe
-   */
-  public static AlumnoDAO getInstanceAlumnoDAO() {
-    if (alumnoDAO == null) {
-      alumnoDAO = new AlumnoDAO(getEntityManager());
-      return alumnoDAO;
-    } else {
-      return alumnoDAO;
-    }
-  }
 
   /**
    * se crea la instancia de usuarioDAO si esta no existe

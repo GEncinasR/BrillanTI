@@ -55,8 +55,13 @@ public class LoginBeanUI implements Serializable {
             );
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_WARN, "Contraseña incorrecta", "La contraseña ingresada para '" + usuario.getNombreUsuario() + "' es inválida"));
+                new FacesMessage(FacesMessage.SEVERITY_WARN, "Contraseña incorrecta", "La contraseña ingresada para '" + usuario.getNombreUsuario() + "' no es válida"));
         }
+    }
+
+    public void mostrarProximamente() {
+        FacesContext.getCurrentInstance().addMessage(null, 
+            new FacesMessage(FacesMessage.SEVERITY_INFO, "Función en progreso", "Esta función vendrá próximamente"));
     }
 
     /* getters y setters */

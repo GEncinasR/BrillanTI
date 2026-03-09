@@ -20,4 +20,12 @@ public class AsignadoHelper implements Serializable {
                 .getInstanceFacadeAsignado()
                 .obtenerPorProfesor(idProfesor);
     }
+
+    public List<mx.desarrollo.entity.Profesor> obtenerProfesores() {
+        return ServiceFacadeLocator.getInstanceFacadeProfesor().findAll();
+    }
+
+    public List<mx.desarrollo.entity.UnidadAprendizaje> obtenerUAs() {
+        return ServiceFacadeLocator.getInstanceFacadeUnidadAprendizaje().listaCompletaUA();
+    }
 }
