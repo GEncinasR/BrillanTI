@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Alta de Unidades de Aprendizaje</title>
+
+    <style>
+
+        /* Eliminar el estilo por defecto de PrimeFaces y aplicar el nuevo */
+        .ui-growl-item-container.ui-state-highlight.ui-growl-error,
+        .ui-growl-item-container.ui-state-highlight.ui-growl-warn {
+            background: #f8bbc5 !important; /* El color rosado de la imagen */
+            border: none !important;
+            border-radius: 8px !important; /* Bordes redondeados */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important; /* Sombra suave */
+            opacity: 1 !important;
+        }
+
+        /* Estilo para mensajes de éxito (INFO) */
+        .ui-growl-item-container.ui-state-highlight.ui-growl-info {
+            background: #90EE90 !important; /* Color verde */
+            border: none !important;
+            border-radius: 8px !important; /* Bordes redondeados */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important; /* Sombra suave */
+            opacity: 1 !important;
+        }
+
+        /* Estilo para el ícono de la X (Cerrar) */
+        .ui-growl-icon-close {
+            color: #4a4a4a !important;
+            top: 15px !important;
+        }
+
+        /* Estilo para el ícono principal del mensaje */
+        .ui-growl-image.ui-growl-image-error {
+            /* Si quieres cambiar el icono de la X roja por uno circular oscuro */
+            background-image: none !important;
+            display: inline-block;
+        }
+        .ui-growl-image.ui-growl-image-error::before {
+            content: "\e931"; /* Icono circular de PrimeIcons */
+            font-family: 'PrimeIcons';
+            font-size: 24px;
+            color: #333;
+        }
+
+        /* Ajuste del texto del Título (Error de acceso) */
+        .ui-growl-title {
+            color: #2c3e50 !important;
+            font-weight: bold !important;
+            font-size: 1.1em !important;
+            display: block;
+            margin-left: 45px !important;
+        }
+
+        /* Ajuste del texto del Mensaje (El usuario no existe) */
+        .ui-growl-message p {
+            color: #4a4a4a !important;
+            font-size: 0.95em !important;
+            margin-left: 45px !important;
+        }
+
+        body{
+            font-family: Arial, sans-serif;
+            background-color:#e6e6e6;
+            margin:0;
+        }
+
+        .boton-regresar{
+            position:absolute;
+            top:1px;
+            left:15px;
+            font-size:30px;
+            background:none;
+            border:none;
+            cursor:pointer;
+            color:#1f4e79;
+        }
+        .header{
+            padding:15px;
+            border-bottom:2px solid #1f4e79;
+            font-weight:bold;
+            text-align:right;
+            color:#1f4e79;
+        }
+
+        .contenedor{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:80vh;
+        }
+
+        .form-box{
+            border:1px solid black;
+            padding:40px;
+            width:350px;
+            text-align:center;
+            background:white;
+        }
+
+        .campo{
+            margin-bottom:20px;
+        }
+
+        .horas{
+            display:flex;
+            justify-content:center;
+            gap:15px;
+            margin-top:10px;
+            margin-bottom:20px;
+        }
+
+        .hora-box{
+            text-align:center;
+        }
+
+        input{
+            padding:5px;
+        }
+
+        .boton{
+            background-color:#2e75b6;
+            color:white;
+            border:none;
+            padding:10px 20px;
+            font-weight:bold;
+            cursor:pointer;
+        }
+
+        .boton:hover{
+            background-color:#1f4e79;
+        }
+    </style>
+
+</h:head>
+
+<h:body>
+
+    <p:growl id="mensajes" showDetail="true" persistence="false" autoUpdate="true" />
+
+    <h:button value="↩" outcome="index.xhtml" styleClass="boton-regresar"/>
+
+    <div class="header">
+        Alta de Unidades de Aprendizaje
+    </div>
+
+    <div class="contenedor">
+
+        <h:form class="form-box">
+
+            <div class="campo">
+                <label>Nombre de la UA</label><br/>
+                <h:inputText id="nombre" size="25" value="#{unidadAprendizajeBeanUI.unidad.nombre}" required="true" requiredMessage="El nombre es obligatorio">
+                    <f:validateLength maximum="50" />
+                </h:inputText>
+                <h:message for="nombre" style="color:red;"/>
+            </div>
+
+            <div>
+                <b>HORAS DE LA UA</b>
+            </div>
+
+            <div class="horas">
+
+                <div class="hora-box">
+                    HC<br/>
+                    <h:inputText id="hc" type="number" min="0" max="4" value="#{unidadAprendizajeBeanUI.unidad.hrsClase}" style="width:50px;" required="true" requiredMessage="HC es obligatorio" />
+                    <h:message for="hc" style="color:red;"/>
+                </div>
+
+                <div class="hora-box">
+                    HL<br/>
+                    <h:inputText id="hl" type="number" min="0" max="4" value="#{unidadAprendizajeBeanUI.unidad.hrsLab}" style="width:50px;" required="true" requiredMessage="HL es obligatorio" />
+                    <h:message for="hl" style="color:red;"/>
+                </div>
+
+                <div class="hora-box">
+                    HT<br/>
+                    <h:inputText id="ht" type="number" min="0" max="4" value="#{unidadAprendizajeBeanUI.unidad.hrsTaller}" style="width:50px;" required="true" requiredMessage="HT es obligatorio" />
+                    <h:message for="ht" style="color:red;"/>
+                </div>
+
+            </div>
+
+            <h:commandButton value="AGREGAR" styleClass="boton" action="#{unidadAprendizajeBeanUI.guardar}">
+                <f:ajax execute="@form" render="@form :mensajes" />
+            </h:commandButton>
+
+        </h:form>
+
+    </div>
+
+</h:body>
+</html>
