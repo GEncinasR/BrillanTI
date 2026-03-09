@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Consulta de Horario</title>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"
+          rel="stylesheet" type="text/css"/>
+
+    <!-- reutilizamos exactamente los mismos estilos -->
+    <style>
+        body { background-color:#f8f9fa; }
+
+        .header-container{
+            padding:20px;
+            border-bottom:2px solid #002677;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            background:white;
+        }
+
+        .header-title{
+            color:#002677;
+            font-weight:bold;
+            font-size:24px;
+        }
+
+        .back-arrow{
+            font-size:30px;
+            color:#002677;
+            text-decoration:none;
+            cursor:pointer;
+        }
+
+        .main-card{
+            width:50%;
+            margin:50px auto;
+            padding:40px;
+            background:white;
+            border:1px solid #ddd;
+            box-shadow:0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .form-group{
+            margin-bottom:20px;
+        }
+
+        .form-group label{
+            display:block;
+            margin-bottom:8px;
+            font-weight:500;
+            color:#333;
+            font-size:1.2em;
+        }
+
+        .ui-selectonemenu,
+        .ui-inputfield{
+            width:100% !important;
+            font-size:1.1em !important;
+            padding:10px !important;
+        }
+
+        .btn-asignar{
+            background-color:#4A90E2 !important;
+            color:white !important;
+            padding:15px 60px !important;
+            font-size:22px !important;
+            font-weight:bold !important;
+            border:none !important;
+            border-radius:6px !important;
+            margin:30px auto !important;
+            display:block !important;
+            cursor:pointer;
+        }
+
+        .btn-asignar:hover{
+            background-color:#357ABD !important;
+            color:white !important;
+        }
+
+        .horario-box{
+            margin-top:30px;
+            padding:20px;
+            background:#f1f3f5;
+            border-radius:5px;
+            font-size:1.3em;
+        }
+    </style>
+
+</h:head>
+
+<h:body>
+
+    <!-- HEADER -->
+    <div class="header-container">
+        <h:form>
+            <h:commandLink action="#{asignadoUI.regresar()}" styleClass="back-arrow">
+                <span class="glyphicon glyphicon-arrow-left"/>
+            </h:commandLink>
+        </h:form>
+
+        <div class="header-title">
+            Consulta de Horario por Profesor
+        </div>
+    </div>
+
+    <!-- CARD PRINCIPAL -->
+    <div class="main-card">
+
+        <h:form id="formConsulta">
+
+            <p:growl id="growl" showDetail="true" life="3000"/>
+
+            <!-- SELECCIONAR PROFESOR -->
+            <div class="form-group">
+
+                <label>Seleccione un Profesor</label>
+
+                <p:selectOneMenu id="profesor"
+                                 value="#{asignadoUI.idProfesor}"
+                                 filter="true"
+                                 filterMatchMode="contains">
+
+                    <f:selectItem itemLabel="Seleccione..." itemValue=""
+                                  noSelectionOption="true"/>
+
+                    <f:selectItems value="#{asignadoUI.listaProfesores}"
+                                   var="prof"
+                                   itemLabel="#{prof.nombre}"
+                                   itemValue="#{prof.id}"/>
+
+                </p:selectOneMenu>
+
+            </div>
+
+            <!-- BOTON CONSULTAR -->
+            <p:commandButton value="CONSULTAR HORARIO"
+                             actionListener="#{asignadoUI.consultarHorarioProfesor}"
+                             update="resultado"
+                             styleClass="btn-asignar"/>
+
+
+            <!-- RESULTADO -->
+            <h:panelGroup id="resultado">
+
+                <div class="horario-box">
+
+                    <h:outputText value="#{asignadoUI.horarioTexto}"
+                                  escape="false"/>
+
+                </div>
+
+            </h:panelGroup>
+
+        </h:form>
+
+    </div>
+
+</h:body>
+</html>
