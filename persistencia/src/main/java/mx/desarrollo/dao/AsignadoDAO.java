@@ -47,6 +47,7 @@ public class AsignadoDAO extends AbstractDAO<Asignado> {
     }
 
     public List<Asignado> obtenerPorProfesor(Integer idProfesor) {
+        entityManager.clear();
         String jpql = "SELECT a FROM Asignado a " +
                       "JOIN FETCH a.idUA " +
                       "JOIN FETCH a.idProfesor " +

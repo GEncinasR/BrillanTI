@@ -46,6 +46,11 @@ public class AsignadoBeanUI implements Serializable {
     @PostConstruct
     public void init() {
         asignado = new Asignado();
+        idProfesor = null;
+        idUA = null;
+        horarioTexto = null;
+        horarioProfesor = new ArrayList<>();
+        
         listaDias = Arrays.asList("Lunes", "Martes", "Miércoles", "Jueves", "Viernes");
         
         java.util.Calendar cal = java.util.Calendar.getInstance();
@@ -97,12 +102,19 @@ public class AsignadoBeanUI implements Serializable {
             asignado.setHrInicio(hrInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalTime());
             asignado.setHrFin(hrFin.toInstant().atZone(ZoneId.systemDefault()).toLocalTime());
 
+            if (!asignado.getHrFin().isAfter(asignado.getHrInicio())) {
+                FacesContext.getCurrentInstance().addMessage(null, 
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error de horario:", "La hora de fin debe ser posterior a la hora de inicio."));
+                return;
+            }
+
             boolean exito = asignadoHelper.guardarAsignado(asignado);
 
             if (exito) {
                 FacesContext.getCurrentInstance().addMessage(null, 
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito:", "Asignación guardada correctamente."));
 
+                consultarHorarioProfesor();
                 limpiarFormulario();
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, 
@@ -116,6 +128,10 @@ public class AsignadoBeanUI implements Serializable {
     }
 
     public String regresar() {
+        idProfesor = null;
+        idUA = null;
+        horarioTexto = null;
+        horarioProfesor = new ArrayList<>();
         return "index.xhtml?faces-redirect=true";
     }
 
@@ -123,8 +139,12 @@ public class AsignadoBeanUI implements Serializable {
         asignado = new Asignado();
         idProfesor = null;
         idUA = null;
-        hrInicio = null;
-        hrFin = null;
+        
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        cal.set(java.util.Calendar.HOUR_OF_DAY, 12);
+        cal.set(java.util.Calendar.MINUTE, 0);
+        hrInicio = cal.getTime();
+        hrFin = cal.getTime();
     }
 
     public void consultarHorarioProfesor() {

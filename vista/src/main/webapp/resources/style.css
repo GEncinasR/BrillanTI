@@ -117,6 +117,19 @@ body {
     margin-top: -8px !important;
     left: 10px !important;
 }
+.ui-selectonemenu .ui-selectonemenu-label {
+    font-size: 1.2em !important;
+    padding: 10px !important;
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-items .ui-selectonemenu-item {
+    font-size: 1.6em !important;
+    padding: 10px !important;
+}
+
+.ui-datepicker, .ui-datepicker-calendar, .ui-timepicker-div, .ui-datepicker-header {
+    font-size: 1.4em !important;
+}
 
 .ui-growl {
     font-size: 1.3em !important;
