@@ -10,7 +10,7 @@ public class ServiceFacadeLocator {
     private static FacadeUsuario facadeUsuario;
     private static FacadeProfesor facadeProfesor;
 
-    private static FacadeProfesor getInstanceFacadeProfesor(){
+    public static FacadeProfesor getInstanceFacadeProfesor(){
         if(facadeProfesor == null){
             facadeProfesor = new FacadeProfesor();
             return facadeProfesor;
