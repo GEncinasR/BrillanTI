@@ -19,4 +19,9 @@ public class FacadeAsignado {
     public List<Asignado> findAll() {
         return delegateAsignado.findAll();
     }
+
+    public List<Asignado> obtenerPorProfesor(Integer idProfesor){
+        return asignadoDAO.obtenerPorProfesor(idProfesor);
+    }
+
 }

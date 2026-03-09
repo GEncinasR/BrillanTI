@@ -47,4 +47,14 @@ public class AsignadoDAO extends AbstractDAO<Asignado> {
         
         return count > 0;
     }
+
+    public List<Asignado> obtenerPorProfesor(Integer idProfesor) {
+
+        return entityManager.createQuery(
+                        "SELECT a FROM Asignado a WHERE a.idProfesor.id = :idProfesor",
+                        Asignado.class
+                )
+                .setParameter("idProfesor", idProfesor)
+                .getResultList();
+    }
 }

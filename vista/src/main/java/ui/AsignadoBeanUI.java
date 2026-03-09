@@ -36,6 +36,8 @@ public class AsignadoBeanUI implements Serializable {
     private List<Profesor> listaProfesores;
     private List<Unidadaprendizaje> listaUA;
     private List<String> listaDias;
+    private List<Asignado> horarioProfesor;
+    private String horarioTexto;
 
     public AsignadoBeanUI() {
         asignadoHelper = new AsignadoHelper();
@@ -114,6 +116,33 @@ public class AsignadoBeanUI implements Serializable {
         hrFin = null;
     }
 
+    public void consultarHorarioProfesor() {
+
+        horarioProfesor = asignadoHelper.obtenerHorarioProfesor(idProfesor);
+
+        if (horarioProfesor == null || horarioProfesor.isEmpty()) {
+            horarioTexto = "Este profesor no tiene horario asignado.";
+            return;
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        for (Asignado a : horarioProfesor) {
+
+            sb.append(a.getDia())
+                    .append(" - ")
+                    .append(a.getIdUA().getNombre())
+                    .append(" ")
+                    .append(a.getHrInicio())
+                    .append(" a ")
+                    .append(a.getHrFin())
+                    .append("\n");
+
+        }
+
+        horarioTexto = sb.toString();
+    }
+
 
     public Asignado getAsignado() { return asignado; }
     public void setAsignado(Asignado asignado) { this.asignado = asignado; }
@@ -144,4 +173,12 @@ public class AsignadoBeanUI implements Serializable {
 
     public List<String> getListaDias() { return listaDias; }
     public void setListaDias(List<String> listaDias) { this.listaDias = listaDias; }
+
+    public String getHorarioTexto() {
+        return horarioTexto;
+    }
+
+    public List<Asignado> getHorarioProfesor() {
+        return horarioProfesor;
+    }
 }

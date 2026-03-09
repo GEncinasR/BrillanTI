@@ -14,4 +14,10 @@ public class AsignadoHelper implements Serializable {
     public List<Asignado> obtenerTodos() {
         return ServiceFacadeLocator.getInstanceFacadeAsignado().findAll();
     }
+
+    public List<Asignado> obtenerHorarioProfesor(Integer idProfesor){
+        return ServiceFacadeLocator
+                .getInstanceFacadeAsignado()
+                .obtenerPorProfesor(idProfesor);
+    }
 }
