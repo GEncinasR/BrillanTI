@@ -47,11 +47,12 @@ public class AsignadoDAO extends AbstractDAO<Asignado> {
     }
 
     public List<Asignado> obtenerPorProfesor(Integer idProfesor) {
-
-        return entityManager.createQuery(
-                        "SELECT a FROM Asignado a WHERE a.idProfesor.id = :idProfesor",
-                        Asignado.class
-                )
+        String jpql = "SELECT a FROM Asignado a " +
+                      "JOIN FETCH a.idUA " +
+                      "JOIN FETCH a.idProfesor " +
+                      "WHERE a.idProfesor.id = :idProfesor";
+        
+        return entityManager.createQuery(jpql, Asignado.class)
                 .setParameter("idProfesor", idProfesor)
                 .getResultList();
     }
