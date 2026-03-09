@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Alta de Profesores</title>
+    <style>
+        /* Fondo general */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f5f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Encabezado */
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #112D4E;
+            padding: 15px 40px;
+            margin-bottom: 50px;
+            background-color: #ffffff;
+        }
+        .header-title {
+            color: #112D4E;
+            font-weight: bold;
+            font-size: 22px;
+        }
+        .back-arrow {
+            font-size: 24px;
+            color: #112D4E;
+            text-decoration: none;
+        }
+
+        /* Caja del formulario */
+        .form-box {
+            background: #ffffff;
+            border: 1px solid #000000;
+            max-width: 450px;
+            margin: 0 auto;
+            padding: 40px 50px;
+        }
+
+        /* Campos */
+        .field-container {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .field-container label {
+            display: block;
+            margin-bottom: 5px;
+            color: #000000;
+            font-size: 14px;
+        }
+
+        .ui-inputtext, .ui-calendar, body .ui-inputfield {
+            width: 100% !important;
+            box-sizing: border-box;
+            padding: 6px;
+        }
+
+        /* Botón */
+        .btn-agregar {
+            background-color: #3F72AF !important;
+            border-color: #3F72AF !important;
+            color: white !important;
+            width: 150px;
+            display: block;
+            margin: 35px auto 0 auto !important;
+            font-weight: bold !important;
+            padding: 5px !important;
+            text-shadow: none !important;
+        }
+
+        .btn-agregar:hover {
+            background-color: #112D4E !important;
+            border-color: #112D4E !important;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <div class="header-container">
+        <h:outputLink value="menu.xhtml" class="back-arrow">
+            <i class="pi pi-arrow-left"></i>
+        </h:outputLink>
+        <div class="header-title">Alta de Profesores</div>
+    </div>
+
+    <h:form id="formAlta">
+        <p:messages id="messages" showDetail="true" closable="true">
+            <p:autoUpdate />
+        </p:messages>
+
+        <div class="form-box">
+            <div class="field-container">
+                <p:outputLabel for="nombre" value="Nombre" />
+                <p:inputText id="nombre" value="#{profesorBeanUI.nombre}" />
+            </div>
+
+            <div class="field-container">
+                <p:outputLabel for="apPaterno" value="Apellido Paterno" />
+                <p:inputText id="apPaterno" value="#{profesorBeanUI.apellidoPaterno}" />
+            </div>
+
+            <div class="field-container">
+                <p:outputLabel for="apMaterno" value="Apellido Materno" />
+                <p:inputText id="apMaterno" value="#{profesorBeanUI.apellidoMaterno}" />
+            </div>
+
+            <div class="field-container">
+                <p:outputLabel value="Fecha de Nacimiento" />
+                <div style="display: flex; gap: 15px;">
+                    <p:inputText id="dia" value="#{profesorBeanUI.dia}"
+                                 placeholder="DD" maxlength="2"
+                                 style="flex: 1; text-align: center;"
+                                 oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+
+                    <p:inputText id="mes" value="#{profesorBeanUI.mes}"
+                                 placeholder="MM" maxlength="2"
+                                 style="flex: 1; text-align: center;"
+                                 oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+
+                    <p:inputText id="anio" value="#{profesorBeanUI.anio}"
+                                 placeholder="YYYY" maxlength="4"
+                                 style="flex: 1; text-align: center;"
+                                 oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+                </div>
+            </div>
+
+            <div class="field-container">
+                <p:outputLabel for="rfc" value="RFC" />
+                <p:inputText id="rfc" value="#{profesorBeanUI.rfc}"
+                             style="text-transform: uppercase;" maxlength="13"/>
+            </div>
+
+            <p:commandButton value="AGREGAR"
+                             action="#{profesorBeanUI.altaProfesor()}"
+                             process="@form"
+                             update="@form"
+                             styleClass="btn-agregar" />
+        </div>
+    </h:form>
+</h:body>
+</html>

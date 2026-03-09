@@ -14,11 +14,12 @@ public class ProfesorDAO extends AbstractDAO<Profesor> {
     }
 
     public void guardarProfesor(Profesor profe){
+        System.out.println("guardar desde el dao");
         save(profe);
     }
 
     public Profesor buscarPorRFC(String rfc){
-        return findByOneParameterUnique("rfc",rfc);
+        return findByOneParameterUnique(rfc,"rfc");
     }
 
     @Override
