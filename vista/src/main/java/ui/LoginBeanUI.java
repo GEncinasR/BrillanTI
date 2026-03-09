@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ui;
 
 import helper.LoginHelper;
-import jakarta.annotation.ManagedBean;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
@@ -19,42 +13,53 @@ import java.io.Serializable;
 
 @Named("loginUI")
 @SessionScoped
-public class LoginBeanUI implements Serializable{
+public class LoginBeanUI implements Serializable {
     private LoginHelper loginHelper;
     private Usuario usuario;
-    
+
     public LoginBeanUI() {
         loginHelper = new LoginHelper();
     }
-    
-    /**
-     * Metodo postconstructor todo lo que este dentro de este metodo
-     * sera la primero que haga cuando cargue la pagina
-     */
+
     @PostConstruct
     public void init(){
-        usuario= new Usuario();
+        usuario = new Usuario();
     }
 
-     public void login() throws IOException{
+    public void login() throws IOException {
         String appURL = "/index.xhtml";
-        // los atributos de usuario vienen del xhtml 
-        Usuario us= new Usuario();
-        us.setId(0);
-        us = loginHelper.Login(usuario.getCorreo(), usuario.getContrasena());
-          if(us != null && us.getId()!=null){
-            // asigno el usuario encontrado al usuario de esta clase para que 
-            // se muestre correctamente en la pagina de informacion
-            usuario=us;
-            FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + appURL);
-        }else{
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Usuario o contraseña incorrecta:", "Intente de nuevo"));
+        
+        Usuario existingUser = loginHelper.findByNombre(usuario.getNombreUsuario());
+        
+        if (existingUser == null) {
+            FacesContext.getCurrentInstance().addMessage(null, 
+                new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        "Error de acceso",
+                        "El usuario '" + usuario.getNombreUsuario() + "' no existe"));
+            return;
+        }
+
+        Usuario loggedIn = loginHelper.login(usuario.getNombreUsuario(), usuario.getContrasenaUsuario());
+        
+        if (loggedIn != null && loggedIn.getId() != null) {
+            this.usuario = loggedIn;
+            FacesContext.getCurrentInstance().addMessage(null, 
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", "Sesión iniciada correctamente como " + loggedIn.getNombreUsuario()));
+            
+            // Usamos KeepMessages para que el growl se vea despues de redireccionar si es necesario, 
+            // aunque usualmente el redirect limpia el contexto. 
+            FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+            
+            FacesContext.getCurrentInstance().getExternalContext().redirect(
+                FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + appURL
+            );
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, 
+                new FacesMessage(FacesMessage.SEVERITY_WARN, "Contraseña incorrecta", "La contraseña ingresada para '" + usuario.getNombreUsuario() + "' es inválida"));
         }
     }
 
-    
-    /* getters y setters*/
-
+    /* getters y setters */
     public Usuario getUsuario() {
         return usuario;
     }
@@ -62,16 +67,4 @@ public class LoginBeanUI implements Serializable{
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
-
-    
 }

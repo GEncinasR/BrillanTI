@@ -14,4 +14,8 @@ public class FacadeUsuario {
     public Usuario login(String nombreUsuario, String contrasena){
         return delegateUsuario.login(nombreUsuario, contrasena);
     }
+
+    public Usuario findByNombre(String nombreUsuario) {
+        return delegateUsuario.findByNombre(nombreUsuario);
+    }
 }

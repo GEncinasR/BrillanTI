@@ -5,53 +5,89 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Menú Principal</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <style>
+            body {
+                background-color: #f8f9fa;
+            }
+            .header-container {
+                padding: 20px;
+                border-bottom: 2px solid #002677;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: white;
+                margin-bottom: 50px;
+            }
+            .header-title {
+                color: #002677;
+                font-weight: bold;
+                font-size: 24px;
+            }
+            .back-button {
+                font-size: 24px;
+                color: #002677;
+                text-decoration: none;
+                cursor: pointer;
+            }
+            .back-button:hover {
+                color: #d9534f;
+            }
+            .main-card {
+                width: 40%;
+                margin: 0 auto;
+                padding: 40px;
+                background: white;
+                border: 1px solid #ddd;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                border-radius: 8px;
+            }
+            .button-list {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+            /* Estilo basado exactamente en el boton ASIGNAR de asignacion.xhtml */
+            .btn-menu {
+                background-color: #4A90E2 !important;
+                color: white !important;
+                padding: 15px 0 !important;
+                font-size: 22px !important;
+                font-weight: bold !important;
+                border: none !important;
+                border-radius: 6px !important;
+                width: 100% !important;
+                display: block !important;
+                text-shadow: none !important;
+                cursor: pointer;
+                transition: background-color 0.3s ease !important;
+            }
+            .btn-menu:hover {
+                background-color: #357ABD !important;
+                color: white !important;
+            }
+        </style>
     </h:head>
     <h:body>
-        <p:panelGrid class="txt">
-            <f:facet name="header">  
-                <p:row>
-                    <p:column colspan="7"><p:graphicImage url="resources/user.png" class="logo"/></p:column>
-                </p:row>
-            </f:facet>
-            <p:row>
-                <p:column styleClass="celda">Nombre:</p:column>
-                <p:column><h:outputText value="#{loginUI.usuario.idAlumno.nombre}" /></p:column>
-            </p:row>
-            <p:row>
-                <p:column styleClass="celda">Apellido:</p:column>
-                <p:column><h:outputText value="#{loginUI.usuario.idAlumno.apellidos}" /></p:column>
-            </p:row>
-            <p:row>
-                <p:column styleClass="celda">Matricula:</p:column>
-                <p:column><h:outputText value="#{loginUI.usuario.idAlumno.matricula}" /></p:column>
-            </p:row>
-        </p:panelGrid>
-    </h:body>
-    <style>
-        .logo{
-            width: 170px;
-        }
-        .celda{
-            width: 25%;
-            background-color: #089b4d;
-            color:white;
-        }
-        .txt{
-                position: absolute;
-                top:0;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                height: 35%;
-                width: 25%;
-                padding: 25px;
-                margin: auto;
-                background: white;
-                border-radius: 5px;
-                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            
-        }
-    </style>
-</html>
+        <div class="header-container">
+            <h:form>
+                <h:commandLink action="login.xhtml?faces-redirect=true" styleClass="back-button" title="Cerrar Sesión">
+                    <span class="glyphicon glyphicon-log-out"></span>
+                </h:commandLink>
+            </h:form>
+            <div class="header-title">Bienvenido, #{loginUI.usuario.nombreUsuario}</div>
+            <div style="width: 30px;"></div> <!-- poquito espacio -->
+        </div>
 
+        <div class="main-card">
+            <div class="button-list">
+                <p:commandButton value="1" styleClass="btn-menu" />
+                <p:commandButton value="2" styleClass="btn-menu" />
+                <p:commandButton value="3" styleClass="btn-menu" />
+                <p:commandButton value="4" styleClass="btn-menu" />
+                <p:commandButton value="5" styleClass="btn-menu" />
+            </div>
+        </div>
+    </h:body>
+</html>
