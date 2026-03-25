@@ -42,9 +42,14 @@ public class LoginBeanUI implements Serializable {
         Usuario loggedIn = loginHelper.login(usuario.getNombreUsuario(), usuario.getContrasenaUsuario());
 
         if (loggedIn != null && loggedIn.getId() != null) {
-            this.usuario = loggedIn;
+
+            this.usuario = new Usuario();
+            this.usuario.setId(loggedIn.getId());
+            this.usuario.setNombreUsuario(loggedIn.getNombreUsuario());
+            this.usuario.setContrasenaUsuario(loggedIn.getContrasenaUsuario());
+
             FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", "Sesión iniciada correctamente como " + loggedIn.getNombreUsuario()));
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", "Sesión iniciada correctamente como " + this.usuario.getNombreUsuario()));
 
             // Usamos KeepMessages para que el growl se vea despues de redireccionar si es necesario,
             // aunque usualmente el redirect limpia el contexto.

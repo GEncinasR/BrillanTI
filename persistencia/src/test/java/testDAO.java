@@ -12,7 +12,7 @@ public class testDAO {
         System.out.println("--- TESTING USUARIOS ---");
         List<Usuario> usuarios = ServiceLocator.getInstanceUsuarioDAO().findAll();
         for (Usuario u : usuarios) {
-            System.out.println("User: " + u.getNombreUsuario() + " | ID: " + u.getId());
+            System.out.println("User: " + u.getNombreUsuario() + " | ID: " + u.getId() + " | pass: " + u.getContrasenaUsuario());
         }
 
         System.out.println("\n--- TESTING PROFESORES ---");

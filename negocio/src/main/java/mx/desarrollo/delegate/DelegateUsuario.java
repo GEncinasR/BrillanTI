@@ -7,28 +7,14 @@ import java.util.List;
 
 public class DelegateUsuario {
     public Usuario login(String nombreUsuario, String contrasena){
-        Usuario usuario = null;
-        List<Usuario> usuarios = ServiceLocator.getInstanceUsuarioDAO().findAll();
-        
-        for(Usuario us : usuarios){
-            if(us.getNombreUsuario().equalsIgnoreCase(nombreUsuario) && 
-               us.getContrasenaUsuario().equals(contrasena)){
-                usuario = us;
-                break;
-            }
+        Usuario us = ServiceLocator.getInstanceUsuarioDAO().findByOneParameterUnique(nombreUsuario, "nombreUsuario");
+        if (us != null && us.getContrasenaUsuario().equals(contrasena)) {
+            return us;
         }
-        return usuario;
+        return null;
     }
 
     public Usuario findByNombre(String nombreUsuario) {
-        List<Usuario> usuarios = ServiceLocator.getInstanceUsuarioDAO().findAll();
-        if (usuarios != null) {
-            for(Usuario us : usuarios){
-                if(us.getNombreUsuario().equalsIgnoreCase(nombreUsuario.trim())){
-                    return us;
-                }
-            }
-        }
-        return null;
+        return ServiceLocator.getInstanceUsuarioDAO().findByOneParameterUnique(nombreUsuario.trim(), "nombreUsuario");
     }
 }
