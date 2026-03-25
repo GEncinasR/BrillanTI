@@ -1,5 +1,4 @@
-# Proyecto SAUAP
-
+#Proyecto SAUAP
 ___
 ### Desarrollado por el equipo BrillanTI
 - Diego Eduardo Garcia Salas
